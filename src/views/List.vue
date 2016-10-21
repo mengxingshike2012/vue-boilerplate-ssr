@@ -5,7 +5,7 @@
            <img src="topic.members.avatar_normal" />
          </div>
          <div class="media-content">
-           <router-link :to="topic.id">{{ topic.title }} </router-link>
+           <router-link :to="topic.id.toString()">{{ topic.title }} </router-link>
          </div>
       </div>
   </div>
@@ -17,18 +17,18 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'v2ex-hotTopics',
   components: {},
-  //work together with getters of store
-  computed:{
-    ...mapGetters({
+  // work together with getters of store
+  computed: {
+    ...mapGetters([
       'isLoading',
       'topics',
-    })
+    ]),
   },
   beforeMount() {
     // dispatch action is a little easy than react.
     this.$store.dispatch('fetchHotTopics');
-  }
-}
+  },
+};
 </script>
 <style lang="scss">
   .container {
@@ -44,10 +44,10 @@ export default {
     display:flex;
     flex-direction: row;
 
-    .media-left: {
+    .media-left {
       width: 100px;
     }
-    .media-content: {
+    .media-content  {
       flex: 1;
     }
   }

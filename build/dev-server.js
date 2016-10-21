@@ -7,6 +7,8 @@ var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 
+var fetch = require('isomorphic-fetch');
+
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
 // Define HTTP proxies to your custom API backend
@@ -55,6 +57,35 @@ app.use(hotMiddleware)
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
+
+const hostname = 'https://www.v2ex.com';
+const api = express.Router();
+api
+  // .get('/topics/hot.json', (req, res) => {
+  //   const path = req.originalUrl.replace('/\/api/', '');
+  //   const url = hostname + path;
+  //   console.log(url);
+  //   fetch(url).then((data) => {
+  //     return data.json();
+  //   }).then((json) => {
+  //     res.send(json);
+  //   }).catch((e) => {
+  //     console.log(e);
+  //   });
+  // })
+  .get('/topics/:id', (req, res) => {
+    console.log(req);
+    const url = `${hostname}/api/topics/show.json?id=${req.params.id}`;
+    console.log(url);
+    fetch(url).then((data) => {
+      return data.json();
+    }).then((json) => {
+      res.send(json);
+    }).catch((e) => {
+      console.log(e);
+    });
+  });
+app.use('/api', api);
 
 module.exports = app.listen(port, function (err) {
   if (err) {

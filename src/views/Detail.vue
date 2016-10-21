@@ -13,15 +13,15 @@ export default {
   name: 'v2ex-topic-detail',
   components: {},
   computed: {
-    ...mapGetters{[
+    ...mapGetters([
       'isLoading',
       'detail',
-    ]}
+    ]),
   },
   beforeMount() {
-    this.$store.dispatch('fetchTopicDetail', {id: this.$store.state.router.params.id});
-  }
-}
+    this.$store.dispatch('fetchTopicDetail', { id: this.$route.params.id });
+  },
+};
 </script>
 
 <style lang="scss">

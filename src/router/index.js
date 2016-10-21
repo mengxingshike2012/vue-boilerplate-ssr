@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import V2exHotTopics from '../views/List.vue';
-import V2exTopicDetail from '../views/Detail.vue';
+import V2exHotTopics from '../views/List';
+import V2exTopicDetail from '../views/Detail';
 
 Vue.use(Router);
 
