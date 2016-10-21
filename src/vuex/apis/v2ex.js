@@ -7,6 +7,6 @@ export async function fetchHotTopics() {
 }
 
 export async function fetchTopicDetail(id) {
-  const datas = await fetch(`http://localhost:${port}/api/topics/${id}`).then(res => res.json());
+  const datas = await fetch(`http://localhost:${port}/api/topic/${id}`).then(res => res.json());
   return datas[0];
 }

@@ -35,6 +35,35 @@ compiler.plugin('compilation', function (compilation) {
   })
 })
 
+const hostname = 'https://www.v2ex.com';
+const api = express.Router();
+api
+  .get('/topics/hot.json', (req, res) => {
+    const path = req.originalUrl.replace('/\/api/', '');
+    const url = hostname + path;
+    console.log(url);
+    fetch(url).then((data) => {
+      return data.json();
+    }).then((json) => {
+      res.send(json);
+    }).catch((e) => {
+      console.log(e);
+    });
+  })
+  .get('/topic/:id', (req, res) => {
+    console.log(req);
+    const url = `${hostname}/api/topics/show.json?id=${req.params.id}`;
+    console.log(url);
+    fetch(url).then((data) => {
+      return data.json();
+    }).then((json) => {
+      res.send(json);
+    }).catch((e) => {
+      console.log(e);
+    });
+  });
+app.use('/api', api);
+
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
@@ -58,34 +87,7 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-const hostname = 'https://www.v2ex.com';
-const api = express.Router();
-api
-  // .get('/topics/hot.json', (req, res) => {
-  //   const path = req.originalUrl.replace('/\/api/', '');
-  //   const url = hostname + path;
-  //   console.log(url);
-  //   fetch(url).then((data) => {
-  //     return data.json();
-  //   }).then((json) => {
-  //     res.send(json);
-  //   }).catch((e) => {
-  //     console.log(e);
-  //   });
-  // })
-  .get('/topics/:id', (req, res) => {
-    console.log(req);
-    const url = `${hostname}/api/topics/show.json?id=${req.params.id}`;
-    console.log(url);
-    fetch(url).then((data) => {
-      return data.json();
-    }).then((json) => {
-      res.send(json);
-    }).catch((e) => {
-      console.log(e);
-    });
-  });
-app.use('/api', api);
+
 
 module.exports = app.listen(port, function (err) {
   if (err) {
