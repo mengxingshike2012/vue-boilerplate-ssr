@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from './App';
+import App from './App.vue';
 import store from './vuex/store';
 import router from './router';
 
@@ -9,4 +9,6 @@ const app = new Vue({
   ...App,
 });
 
-app.$mount('#app');
+// when doing ssr, we do not directly mount it.
+// app.$mount('#app');
+export { app, store, router };
